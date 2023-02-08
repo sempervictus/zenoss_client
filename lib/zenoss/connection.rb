@@ -36,6 +36,7 @@ module Zenoss
       @zenoss_uri = (url.is_a?(URI) ? url : URI.parse(url))
       @request_number = 1
       @httpcli = HTTPClient.new
+      @httpcli.ssl_config.verify_mode = OpenSSL::SSL::VERIFY_NONE unless opts[:ssl_verify_peer]
       @httpcli.receive_timeout = 360  # six minutes should be more that sufficient
       yield(@httpcli) if block_given?
       sign_in(user, pass) unless opts[:no_sign_in]
